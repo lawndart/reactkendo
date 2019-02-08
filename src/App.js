@@ -15,14 +15,15 @@ class App extends Component {
     super(props)
     const initalFilter = {
       logic: 'and',
-      fliters: [{
+      filters: [{
         field: 'ProductName', 
         operator: 'contains',
-        value: 'Chai'
+        value: 'C'
       }]
     }
     this.state = {
-      data: product,
+      data: this.getProducts(initalFilter),
+      filter: initalFilter,
       habitId: 0,
       habitName: '',
       habit: '',
@@ -54,6 +55,15 @@ class App extends Component {
      habitId: this.state.habitId + 1 
     });
   }
+
+  handleFilterChange = (event) => {
+    this.setState({
+      data: this.getProducts(event.filter),
+      filter: event.filter
+    });
+  }
+
+  getProducts = (filter) => filterBy(product, filter);
 
   render() {
     return (
@@ -92,6 +102,9 @@ class App extends Component {
           <Grid
             data={this.state.data}
             style={{maxHeight:"500px"}}
+            filterable={true}
+            filter={this.state.filter}
+            filterChange={this.handleFilterChange}
           >
             <Column field="ProductID" title="Product ID" />
             <Column field="ProductName" title="Product Name" />
