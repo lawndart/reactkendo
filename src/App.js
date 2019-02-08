@@ -13,14 +13,16 @@ import product from './products.json';
 class App extends Component {
   constructor(props) {
     super(props)
+    
     const initalFilter = {
       logic: 'and',
       filters: [{
         field: 'ProductName', 
         operator: 'contains',
-        value: 'C'
+        value: ''
       }]
     }
+
     this.state = {
       data: this.getProducts(initalFilter),
       filter: initalFilter,
@@ -34,15 +36,15 @@ class App extends Component {
         "Eat food",
         "Do stuff"
       ]
-    }
-  };
+    };
+  }
 
   handleNameChange = (event) => {
-    this.setState({ habitName: event.target.value })
+    this.setState({ habitName: event.target.value });
   }
 
   handleIterationChange = (event) => {
-    this.setState({ habitIteration: event.target.value })
+    this.setState({ habitIteration: event.target.value });
   }
 
   handleAddHabit = (event) => {
@@ -56,6 +58,7 @@ class App extends Component {
     });
   }
 
+  
   handleFilterChange = (event) => {
     this.setState({
       data: this.getProducts(event.filter),
@@ -101,15 +104,14 @@ class App extends Component {
         <section className="nutrition-grid">
           <Grid
             data={this.state.data}
-            style={{maxHeight:"500px"}}
+            style={{maxHeight: '500px'}}
             filterable={true}
             filter={this.state.filter}
-            filterChange={this.handleFilterChange}
-          >
-            <Column field="ProductID" title="Product ID" />
+            onFilterChange={this.handleFilterChange}>
+            <Column field="ProductID" title="Product ID" filter="numeric"/>
             <Column field="ProductName" title="Product Name" />
-            <Column field="UnitsInStock" title="Number in stock" />
-            <Column field="UnitsOnOrder" title="Number on order" />
+            <Column field="UnitsInStock" title="Number in stock" filter="numeric"/>
+            <Column field="UnitsOnOrder" title="Number on order" filter="numeric"/>
           </Grid>
         </section>
       </div>  
