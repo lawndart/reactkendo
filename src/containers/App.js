@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
-import { Menu, PanelBar, TabStrip, Splitter } from '@progress/kendo-react-layout';
-import { DropDownList } from '@progress/kendo-react-dropdowns';
-import { NumericTextBox } from '@progress/kendo-react-inputs';
-import { Button } from '@progress/kendo-react-buttons';
-import { filterBy } from '@progress/kendo-data-query';
-import { orderBy } from '@progress/kendo-data-query';
+import { Splitter } from '@progress/kendo-react-layout';
+import { AutoComplete } from '@progress/kendo-react-dropdowns';
+import { orderBy, filterBy } from '@progress/kendo-data-query';
 import { Grid , GridColumn as Column, GridDetailRow } from '@progress/kendo-react-grid';
 import MyCommandCell from '../components/command-cell.js';
 // import DetailComponent from '../components/DetailComponent.js';
 import '@progress/kendo-theme-default/dist/all.css';
 import '../assets/css/App.css';
-
-// import nutrition from './nutrition.json';
 import product from '../assets/json/products.json';
 
 class DetailComponent extends GridDetailRow {
@@ -30,11 +25,12 @@ class DetailComponent extends GridDetailRow {
 }
 
 class App extends Component {
-
+  
   CommandCell;
+
   constructor(props) {
     super(props)
-    
+
     const initalFilter = {
       logic: 'and',
       filters: [{
@@ -47,6 +43,7 @@ class App extends Component {
     this.state = {
       data: this.getProducts(initalFilter),
       filter: initalFilter,
+      searchData: product,
       skip: 0,
       take: 10,
       sort: [{
@@ -56,7 +53,9 @@ class App extends Component {
       panes: [
         {size: '20%', min: '20px', collapsible: true},
         {}
-      ]
+      ],
+      search: '',
+      suggest: ''
     };
 
     this.enterInsert = this.enterInsert.bind(this);
@@ -77,8 +76,6 @@ class App extends Component {
   }
 
   getProducts = (filter) => filterBy(product, filter);
-
-  
 
   enterEdit(dataItem) {
     this.update(this.state.data, dataItem).inEdit = true;
@@ -177,6 +174,13 @@ class App extends Component {
     });
   }
 
+  handleSearchChange = (event) => {
+    this.setState({
+      search: event.target.value,
+      suggest: event.suggestion ? event.suggestion.value : ''
+    });
+  }
+
 
   render() {
     return (
@@ -187,6 +191,13 @@ class App extends Component {
             onLayoutChange={this.onLayoutChange}
           > 
           <div className="pane-content">
+            <AutoComplete
+              data={this.state.searchData}
+              value={this.state.search}
+              suggest={this.state.suggest}
+              onChange={this.handleSearchChange}
+              textField="ProductName"
+            />
             <h3>Inner splitter / left pane</h3>
             <p>Resizable and collapsible.</p>
           </div>
