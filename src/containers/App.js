@@ -204,6 +204,8 @@ class App extends Component {
             onFilterChange={this.handleFilterChange}
             editField="inEdit"
             onItemChange={this.itemChange}
+            resizable={true}
+            reorderable={true}
             >
             <Column field="ProductID" title="Product ID" filter="numeric"/>
             <Column field="ProductName" title="Product Name" />
