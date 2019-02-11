@@ -3,6 +3,7 @@ import { DropDownList } from '@progress/kendo-react-dropdowns';
 import { NumericTextBox } from '@progress/kendo-react-inputs';
 import { Button } from '@progress/kendo-react-buttons';
 import { filterBy } from '@progress/kendo-data-query';
+import { orderBy } from '@progress/kendo-data-query';
 import { Grid , GridColumn as Column } from '@progress/kendo-react-grid';
 import MyCommandCell from '../components/command-cell.js';
 import '@progress/kendo-theme-default/dist/all.css';
@@ -41,7 +42,11 @@ class App extends Component {
         "Do stuff"
       ],
       skip: 0,
-      take: 10
+      take: 10,
+      sort: [{
+        field: 'ProductID',
+        dir: 'asc'
+      }]
     };
 
     this.enterInsert = this.enterInsert.bind(this);
@@ -206,7 +211,7 @@ class App extends Component {
         </section>   
         <section className="nutrition-grid">
           <Grid
-            data={this.state.data.slice(this.state.skip, this.state.take + this.state.skip)}
+            data={orderBy(this.state.data.slice(this.state.skip, this.state.take + this.state.skip), this.state.sort)}
             style={{maxHeight: '500px'}}
             filterable={true}
             filter={this.state.filter}
@@ -220,6 +225,13 @@ class App extends Component {
             take={this.state.take}
             total={product.length}
             onPageChange={this.pageChange}
+            sortable
+            sort={this.state.sort}
+            onSortChange={(e) => {
+              this.setState({
+                sort: e.sort
+              });
+            }}
             >
             <Column field="ProductID" title="Product ID" filter="numeric"/>
             <Column field="ProductName" title="Product Name" />
