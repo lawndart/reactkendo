@@ -3,6 +3,7 @@ import { Splitter } from '@progress/kendo-react-layout';
 import { AutoComplete } from '@progress/kendo-react-dropdowns';
 import { orderBy, filterBy } from '@progress/kendo-data-query';
 import { Grid , GridColumn as Column, GridDetailRow } from '@progress/kendo-react-grid';
+import { Window } from '@progress/kendo-react-dialogs';
 import MyCommandCell from '../components/command-cell.js';
 // import DetailComponent from '../components/DetailComponent.js';
 import '@progress/kendo-theme-default/dist/all.css';
@@ -19,6 +20,7 @@ class DetailComponent extends GridDetailRow {
       <p><strong>Reorder Level:</strong> {dataItem.ReorderLevel} units</p>
       <p><strong>Discontinued:</strong> {dataItem.Discontinued}</p>
       <p><strong>Category:</strong> {dataItem.Category.CategoryName} - {dataItem.Category.Description}</p>
+    
       </section>
       );
   }
@@ -57,7 +59,8 @@ class App extends Component {
         {}
       ],
       search: '',
-      suggest: ''
+      suggest: '',
+      windowVisible: true
     };
 
     this.enterInsert = this.enterInsert.bind(this);
@@ -67,7 +70,10 @@ class App extends Component {
     const save = this.save.bind(this);
     const cancel = this.cancel.bind(this);
     const remove = this.remove.bind(this);
+    const toggleDialog = this.toggleDialog.bind(this);
     this.CommandCell = MyCommandCell(enterEdit,remove,save,cancel, "inEdit");
+
+
   }
   
   handleFilterChange = (event) => {
@@ -212,16 +218,48 @@ class App extends Component {
     this.forceUpdate();
   }
 
+  toggleDialog = (event) => {
+    console.log("Sdfsdf");
+    this.setState({
+      visible: !this.state.visible
+    });
+  }
+
 
 
   render() {
     return (
       <div className="App"> 
         <h1>Kendo test</h1>  
-          <Splitter
-            panes={this.state.panes}
-            onLayoutChange={this.onLayoutChange}
-          > 
+        
+        {this.state.visible &&
+            <Window title={"Status"} onClose={this.toggleDialog} initialHeight={350}>
+              <form className="k-form">
+                <fieldset>
+                  <legend>User Details</legend>
+
+                  <label className="k-form-field">
+                      <span>First Name</span>
+                      <input className="k-textbox" placeholder="Your Name" />
+                  </label>
+                  <label className="k-form-field">
+                      <span>Last Name</span>
+                      <input className="k-textbox" placeholder="Your Last Name" />
+                  </label>
+                </fieldset>
+
+                <div className="text-right">
+                  <button type="button" className="k-button" onClick={this.toggleDialog}>Cancel</button>
+                  <button type="button" className="k-button k-primary" onClick={this.toggleDialog}>Submit</button>
+                </div>
+              </form>
+            </Window>
+          }
+
+        <Splitter
+          panes={this.state.panes}
+          onLayoutChange={this.onLayoutChange}
+        >
           <div className="pane-content">
             <AutoComplete
               data={this.state.searchData}

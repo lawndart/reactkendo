@@ -1,7 +1,7 @@
 import React from 'react';
 import { GridCell } from '@progress/kendo-react-grid';
 
-export default function MyCommandCell(enterEdit, remove, save, cancel, editField) {
+export default function MyCommandCell(enterEdit, remove, save, cancel, editField,toggleDialog) {
        return class extends GridCell {
        render() {
            return !this.props.dataItem[editField]
@@ -17,6 +17,7 @@ export default function MyCommandCell(enterEdit, remove, save, cancel, editField
                            onClick={(e) => window.confirm('Confirm deleting: ' + this.props.dataItem.ProductName) && remove(this.props.dataItem)}>
                            Remove
                        </button>
+                     
                    </td>
                )
                : (
