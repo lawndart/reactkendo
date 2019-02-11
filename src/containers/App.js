@@ -39,7 +39,9 @@ class App extends Component {
         "Drink water",
         "Eat food",
         "Do stuff"
-      ]
+      ],
+      skip: 0,
+      take: 10
     };
 
     this.enterInsert = this.enterInsert.bind(this);
@@ -162,6 +164,13 @@ class App extends Component {
     });
   }
 
+  pageChange = (event) => {
+    this.setState({
+      skip: event.page.skip,
+      take: event.page.take
+    });
+  }
+
   render() {
     return (
       <div className="App"> 
@@ -197,7 +206,7 @@ class App extends Component {
         </section>   
         <section className="nutrition-grid">
           <Grid
-            data={this.state.data}
+            data={this.state.data.slice(this.state.skip, this.state.take + this.state.skip)}
             style={{maxHeight: '500px'}}
             filterable={true}
             filter={this.state.filter}
@@ -206,6 +215,11 @@ class App extends Component {
             onItemChange={this.itemChange}
             resizable={true}
             reorderable={true}
+            pageable={true}
+            skip={this.state.skip}
+            take={this.state.take}
+            total={product.length}
+            onPageChange={this.pageChange}
             >
             <Column field="ProductID" title="Product ID" filter="numeric"/>
             <Column field="ProductName" title="Product Name" />
