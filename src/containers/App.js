@@ -45,7 +45,7 @@ class App extends Component {
       filter: initalFilter,
       searchData: product,
       skip: 0,
-      take: 10,
+      take: 20,
       sort: [{
         field: 'ProductID',
         dir: 'asc'
@@ -204,7 +204,7 @@ class App extends Component {
           <section className="nutrition-grid pane-content">
             <Grid
               data={orderBy(this.state.data.slice(this.state.skip, this.state.take + this.state.skip), this.state.sort)}
-              style={{maxHeight: '500px'}}
+              style={{maxHeight: '700px'}}
               filterable={true}
               filter={this.state.filter}
               onFilterChange={this.handleFilterChange}
