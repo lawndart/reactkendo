@@ -28,6 +28,7 @@ class App extends Component {
   
   CommandCell;
 
+  lastSelectedIndex = 0;
   constructor(props) {
     super(props)
 
@@ -44,6 +45,7 @@ class App extends Component {
       data: this.getProducts(initalFilter),
       filter: initalFilter,
       searchData: product,
+      selectedData: product.map(dataItem => Object.assign({ selected: false }, dataItem)),
       skip: 0,
       take: 20,
       sort: [{
@@ -181,6 +183,36 @@ class App extends Component {
     });
   }
 
+  selectionChange = (event) => {
+    event.dataItem.selected = !event.dataItem.selected;
+    this.forceUpdate();
+  }
+
+  rowClick = (event) => {
+    let last = this.lastSelectedIndex;
+    const current = this.state.data.findIndex(dataItem => dataItem === event.dataItem);
+
+    if (!event.nativeEvent.shiftKey) {
+      this.lastSelectedIndex = last = current;
+    }
+
+    if (!event.nativeEvent.ctrlKey) {
+      this.state.data.forEach(item => item.selected = false);
+    }
+    const select = !event.dataItem.selected;
+    for (let i = Math.min(last, current); i <= Math.max(last, current); i++) {
+      this.state.data[i].selected = select;
+    }
+    this.forceUpdate();
+  }
+
+  headerSelectionChange = (event) => {
+    const checked = event.syntheticEvent.target.checked;
+    this.state.data.forEach(item => item.selected = checked);
+    this.forceUpdate();
+  }
+
+
 
   render() {
     return (
@@ -227,7 +259,19 @@ class App extends Component {
               detail={DetailComponent}
               expandField="expanded"
               onExpandChange={this.expandChange}
+              selectedField="selected"
+              onSelectionChange={this.selectionChange}
+              onHeaderSelectionChange={this.headerSelectionChange}
+              onRowClick={this.rowClick}
               >
+              <Column
+                field="selected"
+                width="50px"
+                headerSelectionValue={
+                    this.state.data.findIndex(dataItem => dataItem.selected === false) === -1
+                }
+                filterable={false} 
+              />
               <Column field="ProductID" title="Product ID" filter="numeric"/>
               <Column field="ProductName" title="Product Name" />
               <Column field="UnitsInStock" title="Number in stock" filter="numeric"/>
