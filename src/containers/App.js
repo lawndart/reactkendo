@@ -4,18 +4,33 @@ import { NumericTextBox } from '@progress/kendo-react-inputs';
 import { Button } from '@progress/kendo-react-buttons';
 import { filterBy } from '@progress/kendo-data-query';
 import { orderBy } from '@progress/kendo-data-query';
-import { Grid , GridColumn as Column } from '@progress/kendo-react-grid';
+import { Grid , GridColumn as Column, GridDetailRow } from '@progress/kendo-react-grid';
 import MyCommandCell from '../components/command-cell.js';
+// import DetailComponent from '../components/DetailComponent.js';
 import '@progress/kendo-theme-default/dist/all.css';
 import '../assets/css/App.css';
 
 // import nutrition from './nutrition.json';
 import product from '../assets/json/products.json';
 
+class DetailComponent extends GridDetailRow {
+  render() {
+    const dataItem = this.props.dataItem;
+    return (
+      <section>
+      <p><strong>In Stock:</strong> {dataItem.UnitsInStock} units</p>
+      <p><strong>On Order:</strong> {dataItem.UnitsOnOrder} units</p>
+      <p><strong>Reorder Level:</strong> {dataItem.ReorderLevel} units</p>
+      <p><strong>Discontinued:</strong> {dataItem.Discontinued}</p>
+      <p><strong>Category:</strong> {dataItem.Category.CategoryName} - {dataItem.Category.Description}</p>
+      </section>
+      );
+  }
+}
+
 class App extends Component {
 
   CommandCell;
-  
   constructor(props) {
     super(props)
     
@@ -176,6 +191,11 @@ class App extends Component {
     });
   }
 
+  expandChange = (event) => {
+    event.dataItem.expanded = !event.dataItem.expanded;
+    this.forceUpdate();
+  }
+
   render() {
     return (
       <div className="App"> 
@@ -232,6 +252,9 @@ class App extends Component {
                 sort: e.sort
               });
             }}
+            detail={DetailComponent}
+            expandField="expanded"
+            onExpandChange={this.expandChange}
             >
             <Column field="ProductID" title="Product ID" filter="numeric"/>
             <Column field="ProductName" title="Product Name" />
