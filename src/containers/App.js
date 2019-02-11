@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Menu, PanelBar, TabStrip, Splitter } from '@progress/kendo-react-layout';
 import { DropDownList } from '@progress/kendo-react-dropdowns';
 import { NumericTextBox } from '@progress/kendo-react-inputs';
 import { Button } from '@progress/kendo-react-buttons';
@@ -46,22 +47,16 @@ class App extends Component {
     this.state = {
       data: this.getProducts(initalFilter),
       filter: initalFilter,
-      habitId: 0,
-      habitName: '',
-      habit: '',
-      habitIteration: 0,
-      habits: [],
-      habitOptions: [
-        "Drink water",
-        "Eat food",
-        "Do stuff"
-      ],
       skip: 0,
       take: 10,
       sort: [{
         field: 'ProductID',
         dir: 'asc'
-      }]
+      }],
+      panes: [
+        {size: '20%', min: '20px', collapsible: true},
+        {}
+      ]
     };
 
     this.enterInsert = this.enterInsert.bind(this);
@@ -73,26 +68,6 @@ class App extends Component {
     const remove = this.remove.bind(this);
     this.CommandCell = MyCommandCell(enterEdit,remove,save,cancel, "inEdit");
   }
-
-  handleNameChange = (event) => {
-    this.setState({ habitName: event.target.value });
-  }
-
-  handleIterationChange = (event) => {
-    this.setState({ habitIteration: event.target.value });
-  }
-
-  handleAddHabit = (event) => {
-    this.setState({
-     habits: this.state.habits.concat([{
-      key: this.state.habitId,
-      name: this.state.habitName,
-      iterations: this.state.habitIteration
-     }]),
-     habitId: this.state.habitId + 1 
-    });
-  }
-
   
   handleFilterChange = (event) => {
     this.setState({
@@ -196,74 +171,62 @@ class App extends Component {
     this.forceUpdate();
   }
 
+  onLayoutChange = (updatedState) => {
+    this.setState({
+      panes: updatedState
+    });
+  }
+
+
   render() {
     return (
       <div className="App"> 
-        <h1>Kendo test</h1>
-        <section className="healthy-habits">
-          <ul>
-            {this.state.habits.map((habit => [
-              <li key={habit.habitId}>
-                <h3>{habit.name}</h3>
-                <div className="iterations-area">
-                  {[...Array(habit.iterations)].map((iteration,index) => {
-                    return <input key={index} type="radio"/>
-                  })}
-                </div>
-                </li>
-              ]))
-            }
-          </ul>
-        </section>
-        <section className="add-habits">
-          <DropDownList
-            data={this.state.habitOptions}
-            value={this.state.habitName}
-            onChange={this.handleNameChange}
-            />
-            <NumericTextBox
-              format='0'
-              min={0}
-              value={this.state.habitIteration}
-            onChange={this.handleIterationChange}
-            />
-            <Button primary={true} onClick={this.handleAddHabit}> Add Habit</Button>
-        </section>   
-        <section className="nutrition-grid">
-          <Grid
-            data={orderBy(this.state.data.slice(this.state.skip, this.state.take + this.state.skip), this.state.sort)}
-            style={{maxHeight: '500px'}}
-            filterable={true}
-            filter={this.state.filter}
-            onFilterChange={this.handleFilterChange}
-            editField="inEdit"
-            onItemChange={this.itemChange}
-            resizable={true}
-            reorderable={true}
-            pageable={true}
-            skip={this.state.skip}
-            take={this.state.take}
-            total={product.length}
-            onPageChange={this.pageChange}
-            sortable
-            sort={this.state.sort}
-            onSortChange={(e) => {
-              this.setState({
-                sort: e.sort
-              });
-            }}
-            detail={DetailComponent}
-            expandField="expanded"
-            onExpandChange={this.expandChange}
-            >
-            <Column field="ProductID" title="Product ID" filter="numeric"/>
-            <Column field="ProductName" title="Product Name" />
-            <Column field="UnitsInStock" title="Number in stock" filter="numeric"/>
-            <Column field="UnitsOnOrder" title="Number on order" filter="numeric"/>
-            <Column cell={this.CommandCell} width="180px" filterable={false}/>
-          </Grid>
-        </section>
-      </div>  
+        <h1>Kendo test</h1>  
+          <Splitter
+            panes={this.state.panes}
+            onLayoutChange={this.onLayoutChange}
+          > 
+          <div className="pane-content">
+            <h3>Inner splitter / left pane</h3>
+            <p>Resizable and collapsible.</p>
+          </div>
+          <section className="nutrition-grid pane-content">
+            <Grid
+              data={orderBy(this.state.data.slice(this.state.skip, this.state.take + this.state.skip), this.state.sort)}
+              style={{maxHeight: '500px'}}
+              filterable={true}
+              filter={this.state.filter}
+              onFilterChange={this.handleFilterChange}
+              editField="inEdit"
+              onItemChange={this.itemChange}
+              resizable={true}
+              reorderable={true}
+              pageable={true}
+              skip={this.state.skip}
+              take={this.state.take}
+              total={product.length}
+              onPageChange={this.pageChange}
+              sortable
+              sort={this.state.sort}
+              onSortChange={(e) => {
+                this.setState({
+                  sort: e.sort
+                });
+              }}
+              detail={DetailComponent}
+              expandField="expanded"
+              onExpandChange={this.expandChange}
+              >
+              <Column field="ProductID" title="Product ID" filter="numeric"/>
+              <Column field="ProductName" title="Product Name" />
+              <Column field="UnitsInStock" title="Number in stock" filter="numeric"/>
+              <Column field="UnitsOnOrder" title="Number on order" filter="numeric"/>
+              <Column cell={this.CommandCell} width="180px" filterable={false}/>
+            </Grid>
+          </section>
+        </Splitter>
+        
+      </div> 
     );
   }
 }

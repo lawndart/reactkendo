@@ -10,6 +10,7 @@
     "@progress/kendo-react-grid": "^2.6.1",
     "@progress/kendo-react-inputs": "^2.6.1",
     "@progress/kendo-react-intl": "^2.6.1",
+    "@progress/kendo-react-layout": "^2.6.1",
     "@progress/kendo-theme-default": "^3.2.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
