@@ -5,10 +5,10 @@ import { Button } from '@progress/kendo-react-buttons';
 import { filterBy } from '@progress/kendo-data-query';
 import { Grid , GridColumn as Column } from '@progress/kendo-react-grid';
 import '@progress/kendo-theme-default/dist/all.css';
-import './App.css';
+import '../assets/css/App.css';
 
 // import nutrition from './nutrition.json';
-import product from './products.json';
+import product from '../assets/json/products.json';
 
 class App extends Component {
   constructor(props) {
