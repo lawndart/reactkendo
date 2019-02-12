@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Splitter } from '@progress/kendo-react-layout';
-import { AutoComplete } from '@progress/kendo-react-dropdowns';
+import { AutoComplete, MultiSelect } from '@progress/kendo-react-dropdowns';
 import { orderBy, filterBy } from '@progress/kendo-data-query';
 import { Grid , GridColumn as Column, GridDetailRow } from '@progress/kendo-react-grid';
 import { Window } from '@progress/kendo-react-dialogs';
@@ -72,7 +72,8 @@ class App extends Component {
       ],
       search: '',
       suggest: '',
-      windowVisible: true
+      windowVisible: true,
+      value: []
     };
 
   }
@@ -295,6 +296,13 @@ class App extends Component {
     });
   }
 
+  handleChange = (event) => {
+    this.setState({
+      data: event.target.value,
+      value: event.target.value
+    });
+  }
+
 
 
   render() {
@@ -342,6 +350,15 @@ class App extends Component {
             <p>Resizable and collapsible.</p>
           </div>
           <section className="nutrition-grid pane-content">
+            <div>
+              <label>Filter by Product Name</label>
+              <MultiSelect
+                data={product}
+                value={this.state.value}
+                onChange={this.handleChange}
+                textField="ProductName"
+              />
+            </div>
             <Grid
               data={orderBy(this.state.data.slice(this.state.skip, this.state.take + this.state.skip), this.state.sort)}
               style={{maxHeight: '700px'}}
