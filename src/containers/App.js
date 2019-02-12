@@ -89,6 +89,25 @@ class App extends Component {
     });
   }
 
+  // Multi select handler to update our table
+  handleChange = (event) => {
+    this.setState({
+      data: event.target.value,
+      value: event.target.value,
+      total: event.target.value.length
+    });
+
+    if(event.target.value.length === 0) {
+      this.setState({
+        data: this.getProducts(event.filter),
+        total: product.length
+      });
+    }
+
+
+    console.log(event.target.value.length)
+  }
+
   // Used for passing our filter state 
   getProducts = (filter) => filterBy(product, filter);
 
@@ -299,14 +318,7 @@ class App extends Component {
     });
   }
 
-  // Multi select handler to update our table
-  handleChange = (event) => {
-    this.setState({
-      data: event.target.value,
-      value: event.target.value,
-      total: event.target.value.length
-    });
-  }
+  
 
 
 
