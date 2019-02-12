@@ -90,14 +90,36 @@ class App extends Component {
 
   }
 
-  // TODO figure out what to set state to on 
-  // close
-  logChange = (event) => {
-    console.log(event.target.value)
+  
+  onChange = (event) => { 
+
+    // Get the returned object
+    let selectedValue = event.target.value; 
+
+    // If the search is cleared set 
+    // the data back to the main products
+    if(event.target.value === null) {
+      
+      this.setState({
+        data: product
+      });
+    
+    } else {
+      // Other wise we have to wrap 
+      // the returned object as an array to pass 
+      // through to the filter
+      this.setState({
+        data: [selectedValue]
+      }); 
+    
+    }
+    
   }
+
 
   // Multi select handler to update our table
   handleChange = (event) => {
+    
     this.setState({
       data: event.target.value,
       value: event.target.value,
@@ -328,10 +350,6 @@ class App extends Component {
     });
   }
 
-  
-
-
-
   render() {
     return (
       <div className="App"> 
@@ -366,19 +384,12 @@ class App extends Component {
           onLayoutChange={this.onLayoutChange}
         >
           <div className="pane-content">
-            <AutoComplete
-              data={product}
-              value={this.state.search}
-              suggest={this.state.suggest}
-              onChange={this.handleSearchChange}
-              textField="ProductName"
-            />
             <ComboBox
                 data={product}
-                textField="ProductName"
                 filterable={true}
                 onFilterChange={this.handleFilterChange}
-                onChange={this.logChange}
+                onChange={this.onChange}
+                textField="ProductName"
             />
             <h3>Inner splitter / left pane</h3>
             <p>Resizable and collapsible.</p>
