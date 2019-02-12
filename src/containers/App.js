@@ -20,8 +20,7 @@ class DetailComponent extends GridDetailRow {
       <p><strong>On Order:</strong> {dataItem.UnitsOnOrder} units</p>
       <p><strong>Reorder Level:</strong> {dataItem.ReorderLevel} units</p>
       <p><strong>Discontinued:</strong> {dataItem.Discontinued}</p>
-      <p><strong>Category:</strong> {dataItem.Category.CategoryName} - {dataItem.Category.Description}</p>
-    
+      <p><strong>Category:</strong> {dataItem.Category.CategoryName} - {dataItem.Category.Description}</p>   
       </section>
       );
   }
@@ -32,6 +31,7 @@ class App extends Component {
   CommandCell;
 
   lastSelectedIndex = 0;
+  
   constructor(props) {
     super(props)
 
@@ -43,6 +43,17 @@ class App extends Component {
         value: ''
       }]
     }
+    const enterEdit = this.enterEdit.bind(this);
+    const save = this.save.bind(this);
+    const cancel = this.cancel.bind(this);
+    const remove = this.remove.bind(this);
+    const toggleDialog = this.toggleDialog.bind(this);
+
+    this.enterInsert = this.enterInsert.bind(this);
+    
+    this.itemChange = this.itemChange.bind(this);
+
+    this.CommandCell = MyCommandCell(enterEdit,remove,save,cancel, "inEdit");
 
     this.state = {
       data: this.getProducts(initalFilter),
@@ -64,138 +75,188 @@ class App extends Component {
       windowVisible: true
     };
 
-    this.enterInsert = this.enterInsert.bind(this);
-    this.itemChange = this.itemChange.bind(this);
-
-    const enterEdit = this.enterEdit.bind(this);
-    const save = this.save.bind(this);
-    const cancel = this.cancel.bind(this);
-    const remove = this.remove.bind(this);
-    const toggleDialog = this.toggleDialog.bind(this);
-    this.CommandCell = MyCommandCell(enterEdit,remove,save,cancel, "inEdit");
-
-
   }
   
   handleFilterChange = (event) => {
+    
     this.setState({
       data: this.getProducts(event.filter),
       filter: event.filter
     });
+  
   }
 
   getProducts = (filter) => filterBy(product, filter);
 
   enterEdit(dataItem) {
+    
     this.update(this.state.data, dataItem).inEdit = true;
+    
     this.setState({
         data: this.state.data.slice()
     });
+  
   }
 
   enterInsert() {
+    
     const dataItem = { inEdit: true, Discontinued: false };
     const newproducts = this.state.data.slice();
+    
     newproducts.unshift(dataItem);
+    
     this.update(newproducts, dataItem);
+    
     this.setState({
         data: newproducts
     });
+  
   }
 
   save(dataItem) {
+    
     dataItem.inEdit = undefined;
+    
     dataItem.ProductID = this.update(product, dataItem).ProductID;
+    
     this.setState({
       data: this.state.data.slice()
     });
+  
   }
 
   cancel(dataItem) {
+    
     if (dataItem.ProductID) {
-        let originalItem = product.find(p => p.ProductID === dataItem.ProductID);
-        this.update(this.state.data, originalItem);
+        
+      let originalItem = product.find(p => p.ProductID === dataItem.ProductID);
+       
+      this.update(this.state.data, originalItem);
+    
     } else {
-        this.update(this.state.data, dataItem, !dataItem.ProductID);
+     
+      this.update(this.state.data, dataItem, !dataItem.ProductID);
+    
     }
+    
     this.setState({
-        data: this.state.data.slice()
+      data: this.state.data.slice() 
     });
+  
   }
 
   remove(dataItem) {
+    
     dataItem.inEdit = undefined;
+    
     this.update(this.state.data, dataItem, true);
+    
     this.update(product, dataItem, true);
+    
     this.setState({
-        data: this.state.data.slice()
+      data: this.state.data.slice() 
     });
+  
   }
 
   update(data, item, remove) {
-     let updated;
-     let index = data.findIndex(p => p === item || item.ProductID && p.ProductID === item.ProductID);
-     if (index >= 0) {
-         updated = Object.assign({}, item);
-         data[index] = updated;
-     } else {
-         let id = 1;
-         data.forEach(p => { id = Math.max(p.ProductID + 1, id); });
-         updated = Object.assign({}, item, { ProductID: id });
-         data.unshift(updated);
-         index = 0;
-      }
-     if (remove) {
-         data = data.splice(index, 1);
-     }
-     return data[index];
-   }
+    
+    let updated;
+    
+    let index = data.findIndex(p => p === item || item.ProductID && p.ProductID === item.ProductID);
+    
+    if (index >= 0) {
+      
+      updated = Object.assign({}, item);
+      
+      data[index] = updated;
+    
+    } else {
+        
+        let id = 1;
+        
+        data.forEach(p => { id = Math.max(p.ProductID + 1, id); });
+        
+        updated = Object.assign({}, item, { ProductID: id });
+        
+        data.unshift(updated);
+        
+        index = 0;
+    }
+    
+    if (remove) {
+      
+      data = data.splice(index, 1);
+    
+    }
+    
+    return data[index];
+  
+  }
 
   itemChange(event) {
     const value = event.value;
     const name = event.field;
+    
     if (!name) {
-        return;
+      return;
     }
+    
     const updatedData = this.state.data.slice();
     const item = this.update(updatedData, event.dataItem);
+    
     item[name] = value;
+    
     this.setState({
-        data: updatedData
+      data: updatedData
     });
+  
   }
 
   pageChange = (event) => {
+    
     this.setState({
       skip: event.page.skip,
       take: event.page.take
     });
+  
   }
 
   expandChange = (event) => {
+    
     event.dataItem.expanded = !event.dataItem.expanded;
+    
     this.forceUpdate();
+  
   }
 
   onLayoutChange = (updatedState) => {
+    
     this.setState({
       panes: updatedState
     });
+  
   }
 
   handleSearchChange = (event) => {
+    
     this.setState({
       search: event.target.value,
       suggest: event.suggestion ? event.suggestion.value : ''
     });
+  
   }
 
   selectionChange = (event) => {
+    
     event.dataItem.selected = !event.dataItem.selected;
+    
     this.forceUpdate();
+  
   }
 
   rowClick = (event) => {
+    
     let last = this.lastSelectedIndex;
     const current = this.state.data.findIndex(dataItem => dataItem === event.dataItem);
 
@@ -206,17 +267,25 @@ class App extends Component {
     if (!event.nativeEvent.ctrlKey) {
       this.state.data.forEach(item => item.selected = false);
     }
+    
     const select = !event.dataItem.selected;
+    
     for (let i = Math.min(last, current); i <= Math.max(last, current); i++) {
       this.state.data[i].selected = select;
     }
+    
     this.forceUpdate();
+  
   }
 
   headerSelectionChange = (event) => {
+    
     const checked = event.syntheticEvent.target.checked;
+    
     this.state.data.forEach(item => item.selected = checked);
+    
     this.forceUpdate();
+  
   }
 
   toggleDialog = (event) => {
