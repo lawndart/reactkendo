@@ -87,6 +87,8 @@ class App extends Component {
       data: this.getProducts(event.filter),
       filter: event.filter
     });
+
+    console.log(event.filter)
   }
 
   // Multi select handler to update our table
@@ -106,6 +108,18 @@ class App extends Component {
       });
     }
 
+  }
+
+  handleSearchChange = (event) => {
+    
+    this.setState({
+      data: this.getProducts(event.filter),
+      filter: event.filter,
+      search: event.target.value,
+      suggest: event.suggestion ? event.suggestion.value : ''
+    });
+    
+     console.log(event.filter)
   }
 
   // Used for passing our filter state 
@@ -261,15 +275,6 @@ class App extends Component {
   
   }
 
-  handleSearchChange = (event) => {
-    
-    this.setState({
-      search: event.target.value,
-      suggest: event.suggestion ? event.suggestion.value : ''
-    });
-  
-  }
-
   selectionChange = (event) => {
     
     event.dataItem.selected = !event.dataItem.selected;
@@ -357,7 +362,7 @@ class App extends Component {
         >
           <div className="pane-content">
             <AutoComplete
-              data={this.state.searchData}
+              data={product}
               value={this.state.search}
               suggest={this.state.suggest}
               onChange={this.handleSearchChange}
