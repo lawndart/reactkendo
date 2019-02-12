@@ -35,6 +35,7 @@ class App extends Component {
   constructor(props) {
     super(props)
 
+    // Set our inital view filter (how the table renders first go)
     const initalFilter = {
       logic: 'and',
       filters: [{
@@ -73,20 +74,22 @@ class App extends Component {
       search: '',
       suggest: '',
       windowVisible: true,
-      value: []
+      value: [],
+      total: product.length
     };
 
   }
   
+  // Basic table filter function 
   handleFilterChange = (event) => {
     
     this.setState({
       data: this.getProducts(event.filter),
       filter: event.filter
     });
-  
   }
 
+  // Used for passing our filter state 
   getProducts = (filter) => filterBy(product, filter);
 
   enterEdit(dataItem) {
@@ -296,10 +299,12 @@ class App extends Component {
     });
   }
 
+  // Multi select handler to update our table
   handleChange = (event) => {
     this.setState({
       data: event.target.value,
-      value: event.target.value
+      value: event.target.value,
+      total: event.target.value.length
     });
   }
 
@@ -372,7 +377,7 @@ class App extends Component {
               pageable={true}
               skip={this.state.skip}
               take={this.state.take}
-              total={product.length}
+              total={this.state.total}
               onPageChange={this.pageChange}
               sortable
               sort={this.state.sort}
