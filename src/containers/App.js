@@ -97,6 +97,8 @@ class App extends Component {
       total: event.target.value.length
     });
 
+    // if the select is cleared bring it back to 
+    // the basic product list
     if(event.target.value.length === 0) {
       this.setState({
         data: this.getProducts(event.filter),
@@ -104,8 +106,6 @@ class App extends Component {
       });
     }
 
-
-    console.log(event.target.value.length)
   }
 
   // Used for passing our filter state 
