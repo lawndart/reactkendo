@@ -5,6 +5,7 @@ import { orderBy, filterBy } from '@progress/kendo-data-query';
 import { Grid , GridColumn as Column, GridDetailRow } from '@progress/kendo-react-grid';
 import { Window } from '@progress/kendo-react-dialogs';
 import MyCommandCell from '../components/command-cell.js';
+
 // import DetailComponent from '../components/DetailComponent.js';
 import '@progress/kendo-theme-default/dist/all.css';
 import '../assets/css/App.css';
