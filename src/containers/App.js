@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Splitter } from '@progress/kendo-react-layout';
-import { AutoComplete, MultiSelect } from '@progress/kendo-react-dropdowns';
+import { AutoComplete, MultiSelect, ComboBox } from '@progress/kendo-react-dropdowns';
 import { orderBy, filterBy } from '@progress/kendo-data-query';
 import { Grid , GridColumn as Column, GridDetailRow } from '@progress/kendo-react-grid';
 import { Window } from '@progress/kendo-react-dialogs';
@@ -88,7 +88,12 @@ class App extends Component {
       filter: event.filter
     });
 
-    console.log(event.filter)
+  }
+
+  // TODO figure out what to set state to on 
+  // close
+  logChange = (event) => {
+    console.log(event.target.value)
   }
 
   // Multi select handler to update our table
@@ -367,6 +372,13 @@ class App extends Component {
               suggest={this.state.suggest}
               onChange={this.handleSearchChange}
               textField="ProductName"
+            />
+            <ComboBox
+                data={product}
+                textField="ProductName"
+                filterable={true}
+                onFilterChange={this.handleFilterChange}
+                onChange={this.logChange}
             />
             <h3>Inner splitter / left pane</h3>
             <p>Resizable and collapsible.</p>
