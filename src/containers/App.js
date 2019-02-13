@@ -1,30 +1,18 @@
 import React, { Component } from 'react';
+
 import { Splitter } from '@progress/kendo-react-layout';
 import { AutoComplete, MultiSelect, ComboBox } from '@progress/kendo-react-dropdowns';
 import { orderBy, filterBy } from '@progress/kendo-data-query';
 import { Grid , GridColumn as Column, GridDetailRow } from '@progress/kendo-react-grid';
 import { Window } from '@progress/kendo-react-dialogs';
-import MyCommandCell from '../components/command-cell.js';
 
-// import DetailComponent from '../components/DetailComponent.js';
+import MyCommandCell from '../components/command-cell.js';
+import DetailComponent from '../components/DetailComponent.js';
+
 import '@progress/kendo-theme-default/dist/all.css';
 import '../assets/css/App.css';
-import product from '../assets/json/products.json';
 
-class DetailComponent extends GridDetailRow {
-  render() {
-    const dataItem = this.props.dataItem;
-    return (
-      <section>
-      <p><strong>In Stock:</strong> {dataItem.UnitsInStock} units</p>
-      <p><strong>On Order:</strong> {dataItem.UnitsOnOrder} units</p>
-      <p><strong>Reorder Level:</strong> {dataItem.ReorderLevel} units</p>
-      <p><strong>Discontinued:</strong> {dataItem.Discontinued}</p>
-      <p><strong>Category:</strong> {dataItem.Category.CategoryName} - {dataItem.Category.Description}</p>   
-      </section>
-      );
-  }
-}
+import product from '../assets/json/products.json';
 
 class App extends Component {
   
@@ -89,7 +77,6 @@ class App extends Component {
     });
 
   }
-
   
   onChange = (event) => { 
 
@@ -115,7 +102,6 @@ class App extends Component {
     }
     
   }
-
 
   // Multi select handler to update our table
   handleChange = (event) => {
