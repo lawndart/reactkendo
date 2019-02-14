@@ -5,6 +5,7 @@ import { AutoComplete, MultiSelect, ComboBox } from '@progress/kendo-react-dropd
 import { orderBy, filterBy } from '@progress/kendo-data-query';
 import { Grid , GridColumn as Column, GridDetailRow } from '@progress/kendo-react-grid';
 import { Window } from '@progress/kendo-react-dialogs';
+import { Menu, MenuItem } from '@progress/kendo-react-layout';
 
 import MyCommandCell from '../components/command-cell.js';
 import TabularData from '../components/TabularData.js';
@@ -14,6 +15,7 @@ import '@progress/kendo-theme-default/dist/all.css';
 import '../assets/css/App.css';
 
 import product from '../assets/json/products.json';
+import names from '../assets/json/users.json';
 
 class App extends Component {
   
@@ -356,6 +358,8 @@ class App extends Component {
             onChange={this.onChange.bind(this)} 
           />
           <section className="nutrition-grid pane-content">
+          
+          <Menu items={names} openOnClick={true}/>
             <div>
               <label>Filter by Product Name</label>
               <MultiSelect
