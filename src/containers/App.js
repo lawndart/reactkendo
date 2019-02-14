@@ -333,6 +333,12 @@ class App extends Component {
     });
   }
 
+  sortChange = (event) => {
+    this.setState({
+      sort: event.sort
+    });
+  }
+
   render() {
     const productsList = this.state;
 
@@ -376,6 +382,7 @@ class App extends Component {
               enterInsert = {this.enterInsert.bind(this)}
               itemChange = {this.itemChange.bind(this)}
               CommandCell = {this.CommandCell.bind(this)}
+              sortChange={this.sortChange.bind(this)}
             />
           </section>
         </Splitter>

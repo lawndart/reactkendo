@@ -34,6 +34,7 @@ class TabularData extends Component {
 				total={prodList.total}
 				sortable
 				sort={prodList.sort}
+				onSortChange = {this.props.sortChange}
 				detail={DetailComponent}
 				expandField="expanded"
 				onExpandChange={this.props.expandChange}
