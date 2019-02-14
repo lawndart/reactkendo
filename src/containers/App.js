@@ -8,6 +8,7 @@ import { Window } from '@progress/kendo-react-dialogs';
 
 import MyCommandCell from '../components/command-cell.js';
 import TabularData from '../components/TabularData.js';
+import LeftNav from '../components/LeftNav.js';
 
 import '@progress/kendo-theme-default/dist/all.css';
 import '../assets/css/App.css';
@@ -70,7 +71,6 @@ class App extends Component {
   
   // Basic table filter function 
   handleFilterChange = (event) => {
-    console.log('handlefilterchange')
     this.setState({
       data: this.getProducts(event.filter),
       filter: event.filter
@@ -105,7 +105,7 @@ class App extends Component {
 
   // Multi select handler to update our table
   handleChange = (event) => {
-    console.log('handlechange')
+    
     this.setState({
       data: event.target.value,
       value: event.target.value,
@@ -132,7 +132,6 @@ class App extends Component {
       suggest: event.suggestion ? event.suggestion.value : ''
     });
     
-     console.log(event.filter)
   }
 
   // Used for passing our filter state 
@@ -264,8 +263,6 @@ class App extends Component {
   }
 
   pageChange = (event) => {
-    console.log("app js pagechange")
-    console.log(event.page)
     this.setState({
       skip: event.page.skip,
       take: event.page.take
@@ -322,7 +319,6 @@ class App extends Component {
 
   headerSelectionChange = (event) => {
     
-    console.log("headerselection change")
     const checked = event.syntheticEvent.target.checked;
     
     this.state.data.forEach(item => item.selected = checked);
@@ -332,7 +328,6 @@ class App extends Component {
   }
 
   toggleDialog = (event) => {
-    console.log("Sdfsdf");
     this.setState({
       visible: !this.state.visible
     });
@@ -343,47 +338,17 @@ class App extends Component {
 
     return (
       <div className="App"> 
-        <h1>Kendo test</h1>  
-        
-        {this.state.visible &&
-            <Window title={"Status"} onClose={this.toggleDialog} initialHeight={350}>
-              <form className="k-form">
-                <fieldset>
-                  <legend>User Details</legend>
-
-                  <label className="k-form-field">
-                      <span>First Name</span>
-                      <input className="k-textbox" placeholder="Your Name" />
-                  </label>
-                  <label className="k-form-field">
-                      <span>Last Name</span>
-                      <input className="k-textbox" placeholder="Your Last Name" />
-                  </label>
-                </fieldset>
-
-                <div className="text-right">
-                  <button type="button" className="k-button" onClick={this.toggleDialog}>Cancel</button>
-                  <button type="button" className="k-button k-primary" onClick={this.toggleDialog}>Submit</button>
-                </div>
-              </form>
-            </Window>
-          }
+        <h1>Kendo test</h1> 
 
         <Splitter
           panes={this.state.panes}
           onLayoutChange={this.onLayoutChange}
         >
-          <div className="pane-content">
-            <ComboBox
-                data={product}
-                filterable={true}
-                onFilterChange={this.handleFilterChange}
-                onChange={this.onChange}
-                textField="ProductName"
-            />
-            <h3>Inner splitter / left pane</h3>
-            <p>Resizable and collapsible.</p>
-          </div>
+          <LeftNav 
+            productsList={productsList}
+            handleFilterChange={this.handleFilterChange.bind(this)}
+            onChange={this.onChange.bind(this)} 
+          />
           <section className="nutrition-grid pane-content">
             <div>
               <label>Filter by Product Name</label>
@@ -400,7 +365,7 @@ class App extends Component {
               handleFilterChange={this.handleFilterChange.bind(this)}
               itemChange={this.itemChange.bind(this)}
               expandChange={this.expandChange.bind(this)}
-              selectionChange={this.selectionChange}
+              selectionChange={this.selectionChange.bind(this)}
               headerSelectionChange={this.headerSelectionChange.bind(this)}
               rowClick={this.rowClick.bind(this)}
               enterEdit = {this.enterEdit.bind(this)}
