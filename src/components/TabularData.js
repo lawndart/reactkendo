@@ -44,7 +44,7 @@ class TabularData extends Component {
               	selectedField="selected"
               	onSelectionChange={this.props.selectionChange}
 				onHeaderSelectionChange={this.props.headerSelectionChange}
-				onRowClick={this.props.rowClick}	
+				onRowClick={this.props.rowClick}
 			>
 				<Column
 					field="selected"

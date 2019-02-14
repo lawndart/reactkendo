@@ -6,6 +6,7 @@
     "@progress/kendo-data-query": "^1.5.0",
     "@progress/kendo-react-buttons": "^2.6.1",
     "@progress/kendo-react-dateinputs": "^2.6.1",
+    "@progress/kendo-react-dialogs": "^2.6.1",
     "@progress/kendo-react-dropdowns": "^2.6.1",
     "@progress/kendo-react-grid": "^2.6.1",
     "@progress/kendo-react-inputs": "^2.6.1",
