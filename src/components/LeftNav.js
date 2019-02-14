@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { AutoComplete, MultiSelect, ComboBox } from '@progress/kendo-react-dropdowns';
+import { ComboBox } from '@progress/kendo-react-dropdowns';
+import { PanelBar, PanelBarItem, PanelBarUtils } from '@progress/kendo-react-layout';
 
 class LeftNav extends Component {
 	constructor(props) {
@@ -16,8 +17,53 @@ class LeftNav extends Component {
 					onChange={this.props.onChange}
 					textField="ProductName"
 				/>
-				<h3>Inner splitter / left pane</h3>
-				<p>Resizable and collapsible.</p>
+				<PanelBar expandMode={"single"}>
+					<PanelBarItem title={"Awaiting Payment"}>
+						<PanelBarItem title={"Stores"}>
+							<PanelBarItem title={"Manual Orders"}></PanelBarItem>
+							<PanelBarItem title={"Presale Orders"}></PanelBarItem>
+						</PanelBarItem>
+						<PanelBarItem title={"Views"}>
+							<PanelBarItem title={"Save Current View"} disabled={true}></PanelBarItem>
+						</PanelBarItem>
+					</PanelBarItem>
+					<PanelBarItem title={"On Hold"}>
+						<PanelBarItem title={"Stores"}>
+							<PanelBarItem title={"Manual Orders"}></PanelBarItem>
+							<PanelBarItem title={"Presale Orders"}></PanelBarItem>
+						</PanelBarItem>
+						<PanelBarItem title={"Views"}>
+							<PanelBarItem title={"Save Current View"} disabled={true}></PanelBarItem>
+						</PanelBarItem>
+					</PanelBarItem>
+					<PanelBarItem title={"Pending Fulfillment"}>
+						<PanelBarItem title={"Stores"}>
+							<PanelBarItem title={"Manual Orders"}></PanelBarItem>
+							<PanelBarItem title={"Presale Orders"}></PanelBarItem>
+						</PanelBarItem>
+						<PanelBarItem title={"Views"}>
+							<PanelBarItem title={"Save Current View"} disabled={true}></PanelBarItem>
+						</PanelBarItem>
+					</PanelBarItem>
+					<PanelBarItem title={"Shipped"}>
+						<PanelBarItem title={"Stores"}>
+							<PanelBarItem title={"Manual Orders"}></PanelBarItem>
+							<PanelBarItem title={"Presale Orders"}></PanelBarItem>
+						</PanelBarItem>
+						<PanelBarItem title={"Views"}>
+							<PanelBarItem title={"Save Current View"} disabled={true}></PanelBarItem>
+						</PanelBarItem>
+					</PanelBarItem>
+					<PanelBarItem title={"Cancelled"}>
+						<PanelBarItem title={"Stores"}>
+							<PanelBarItem title={"Manual Orders"}></PanelBarItem>
+							<PanelBarItem title={"Presale Orders"}></PanelBarItem>
+						</PanelBarItem>
+						<PanelBarItem title={"Views"}>
+							<PanelBarItem title={"Save Current View"} disabled={true}></PanelBarItem>
+						</PanelBarItem>
+					</PanelBarItem>
+				</PanelBar>
 			</div>
 		)
 
