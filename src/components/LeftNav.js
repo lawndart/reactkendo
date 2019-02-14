@@ -17,7 +17,7 @@ class LeftNav extends Component {
 					onChange={this.props.onChange}
 					textField="ProductName"
 				/>
-				<PanelBar expandMode={"single"}>
+				<PanelBar>
 					<PanelBarItem title={"Awaiting Payment"}>
 						<PanelBarItem title={"Stores"}>
 							<PanelBarItem title={"Manual Orders"}></PanelBarItem>

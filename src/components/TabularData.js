@@ -27,7 +27,7 @@ class TabularData extends Component {
               	onItemChange={this.props.itemChange}
 				resizable={true}
 				reorderable={true}
-				pageable={true}
+				pageable={{ pageSizes: true }}
 				skip={prodList.skip}
 				take={prodList.take}
 				onPageChange={this.props.pageChange}
