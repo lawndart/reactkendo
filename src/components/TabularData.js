@@ -61,7 +61,7 @@ class TabularData extends Component {
 				<Column field="ProductName" title="Product Name" />
 				<Column field="UnitsInStock" title="Number in stock" filter="numeric"/>
 				<Column field="UnitsOnOrder" title="Number on order" filter="numeric"/>
-				<Column cell={this.props.CommandCell} width="180px" filterable={false}/>
+				<Column cell={this.CommandCell} width="180px" filterable={false}/>
             </Grid>
 		);
 
