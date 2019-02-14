@@ -8,6 +8,7 @@ import { Window } from '@progress/kendo-react-dialogs';
 
 import MyCommandCell from '../components/command-cell.js';
 import DetailComponent from '../components/DetailComponent.js';
+import TabularData from '../components/TabularData.js';
 
 import '@progress/kendo-theme-default/dist/all.css';
 import '../assets/css/App.css';
@@ -70,7 +71,7 @@ class App extends Component {
   
   // Basic table filter function 
   handleFilterChange = (event) => {
-    
+    console.log('handlefilterchange')
     this.setState({
       data: this.getProducts(event.filter),
       filter: event.filter
@@ -105,7 +106,7 @@ class App extends Component {
 
   // Multi select handler to update our table
   handleChange = (event) => {
-    
+    console.log('handlechange')
     this.setState({
       data: event.target.value,
       value: event.target.value,
@@ -321,6 +322,7 @@ class App extends Component {
 
   headerSelectionChange = (event) => {
     
+    console.log("headerselection change")
     const checked = event.syntheticEvent.target.checked;
     
     this.state.data.forEach(item => item.selected = checked);
@@ -364,7 +366,7 @@ class App extends Component {
               </form>
             </Window>
           }
-
+        <TabularData />
         <Splitter
           panes={this.state.panes}
           onLayoutChange={this.onLayoutChange}
