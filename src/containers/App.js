@@ -21,8 +21,8 @@ class App extends Component {
 
   lastSelectedIndex = 0;
   
-  constructor(props) {
-    super(props)
+  constructor() {
+    super();
 
     // Set our inital view filter (how the table renders first go)
     const initalFilter = {
@@ -265,7 +265,8 @@ class App extends Component {
   }
 
   pageChange = (event) => {
-    
+    console.log("app js pagechange")
+    console.log(event.page)
     this.setState({
       skip: event.page.skip,
       take: event.page.take
@@ -339,6 +340,8 @@ class App extends Component {
   }
 
   render() {
+    const productsList = this.state;
+
     return (
       <div className="App"> 
         <h1>Kendo test</h1>  
@@ -366,7 +369,23 @@ class App extends Component {
               </form>
             </Window>
           }
-        <TabularData />
+        <TabularData 
+          productsList={productsList} 
+          pageChange={this.pageChange.bind(this)} 
+          handleFilterChange={this.handleFilterChange.bind(this)}
+          itemChange={this.itemChange.bind(this)}
+          expandChange={this.expandChange.bind(this)}
+          selectionChange={this.selectionChange}
+          headerSelectionChange={this.headerSelectionChange.bind(this)}
+          rowClick={this.rowClick.bind(this)}
+          enterEdit = {this.enterEdit.bind(this)}
+          save = {this.save.bind(this)}
+          cancel = {this.cancel.bind(this)}
+          remove = {this.remove.bind(this)}
+          toggleDialog = {this.toggleDialog.bind(this)}
+          enterInsert = {this.enterInsert.bind(this)}
+          itemChange = {this.itemChange.bind(this)}
+        />
         <Splitter
           panes={this.state.panes}
           onLayoutChange={this.onLayoutChange}

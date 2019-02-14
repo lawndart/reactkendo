@@ -4,79 +4,67 @@ import { orderBy, filterBy } from '@progress/kendo-data-query';
 import { Grid ,  GridCell, GridColumn as Column, GridDetailRow } from '@progress/kendo-react-grid';
 
 import DetailComponent from './DetailComponent.js';
+import MyCommandCell from './command-cell.js';
 
-import product from '../assets/json/products.json';
 
 class TabularData extends Component {
-
+	
+	CommandCell;
+	
 	constructor(props) {
 		super(props);
 
-		// Set our inital view filter (how the table renders first go)
-	    const initalFilter = {
-	      logic: 'and',
-	      filters: [{
-	        field: 'ProductName', 
-	        operator: 'contains',
-	        value: ''
-	      }]
-	    }
-
-		this.state = {
-			data: this.getProducts(initalFilter),
-      		filter: initalFilter,
-      		skip: 0,
-			take: 20,
-			sort: [{
-				field: 'ProductID',
-				dir: 'asc'
-			}],
-			total: product.length
-		}
 	}
 
-	// Used for passing our filter state 
-	getProducts = (filter) => filterBy(product, filter);
-
 	render() {
-
+		const prodList = this.props.productsList;
+		
 		return(
 
-			<Grid 
-				data={this.state.data}
+			<Grid
+				data={orderBy(prodList.data.slice(prodList.skip, prodList.take + prodList.skip), prodList.sort)}
 				style={{maxHeight: '700px'}}
-	          	filterable={true}
-	          	filter={this.state.filter}
-	          	onFilterChange={this.props.handleFilterChange}
-	          	resizable={true}
-              	reorderable={true}
-              	pageable={true}
-              	skip={this.state.skip}
-              	take={this.state.take}
-              	onPageChange={this.pageChange}
+				filterable={true}
+				filter={prodList.filter}
+				onFilterChange={this.props.handleFilterChange}
+				editField="inEdit"
+              	onItemChange={this.props.itemChange}
+				resizable={true}
+				reorderable={true}
+				pageable={true}
+				skip={prodList.skip}
+				take={prodList.take}
+				onPageChange={this.props.pageChange}
+				total={prodList.total}
 				sortable
-				sort={this.state.sort}
-				onSortChange={(e) => {
-					this.setState({
-					  sort: e.sort
-					});
-				}}
-				total={this.state.total}
-			>	
-			 <Column
-                field="selected"
-                width="50px"
-                headerSelectionValue={
-                    this.state.data.findIndex(dataItem => dataItem.selected === false) === -1
-                }
-                filterable={false} 
-              />
-              <Column field="ProductID" title="Product ID" filter="numeric"/>
-              <Column field="ProductName" title="Product Name" />
-              <Column field="UnitsInStock" title="Number in stock" filter="numeric"/>
-              <Column field="UnitsOnOrder" title="Number on order" filter="numeric"/>
+				sort={prodList.sort}
+				detail={DetailComponent}
+				expandField="expanded"
+				onExpandChange={this.props.expandChange}
+				onSelectionChange={this.props.selectionChange}
+              	onHeaderSelectionChange={this.props.headerSelectionChange}
+              	onRowClick={this.props.rowClick}
+              	selectedField="selected"
+              	onSelectionChange={this.props.selectionChange}
+				onHeaderSelectionChange={this.props.headerSelectionChange}
+				onRowClick={this.props.rowClick}	
+			>
+				<Column
+					field="selected"
+					width="50px"
+					headerSelectionValue={
+						prodList.data.findIndex(dataItem => dataItem.selected === false) === -1
+					}
+					filterable={false} 
+				/>
+				<Column field="ProductID" title="Product ID" filter="numeric"/>
+				<Column field="ProductName" title="Product Name" />
+				<Column field="UnitsInStock" title="Number in stock" filter="numeric"/>
+				<Column field="UnitsOnOrder" title="Number on order" filter="numeric"/>
+				<Column cell={this.props.CommandCell} width="180px" filterable={false}/>
             </Grid>
 		);
+
 	}
 
 }
