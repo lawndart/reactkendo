@@ -4,16 +4,12 @@ import { orderBy, filterBy } from '@progress/kendo-data-query';
 import { Grid ,  GridCell, GridColumn as Column, GridDetailRow } from '@progress/kendo-react-grid';
 
 import DetailComponent from './DetailComponent.js';
-import MyCommandCell from './command-cell.js';
 
 
 class TabularData extends Component {
 	
-	CommandCell;
-	
 	constructor(props) {
 		super(props);
-
 	}
 
 	render() {
@@ -61,7 +57,7 @@ class TabularData extends Component {
 				<Column field="ProductName" title="Product Name" />
 				<Column field="UnitsInStock" title="Number in stock" filter="numeric"/>
 				<Column field="UnitsOnOrder" title="Number on order" filter="numeric"/>
-				<Column cell={this.CommandCell} width="180px" filterable={false}/>
+				<Column cell={this.props.CommandCell} width="180px" filterable={false}/>
             </Grid>
 		);
 
