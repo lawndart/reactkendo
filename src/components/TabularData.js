@@ -19,7 +19,7 @@ class TabularData extends Component {
 
 			<Grid
 				data={orderBy(prodList.data.slice(prodList.skip, prodList.take + prodList.skip), prodList.sort)}
-				style={{maxHeight: '700px'}}
+				style={{maxHeight: '730px'}}
 				filterable={true}
 				filter={prodList.filter}
 				onFilterChange={this.props.handleFilterChange}

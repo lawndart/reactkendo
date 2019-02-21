@@ -346,29 +346,37 @@ class App extends Component {
 
     return (
       <div className="App"> 
-        <h1>Kendo test</h1> 
+        <header>
+          <h1>Shipstuff</h1>
+        </header>
 
         <Splitter
           panes={this.state.panes}
           onLayoutChange={this.onLayoutChange}
+          className="primary-splitter"
         >
-          <LeftNav 
-            productsList={productsList}
-            handleFilterChange={this.handleFilterChange.bind(this)}
-            onChange={this.onChange.bind(this)} 
-          />
+          <section className="left-nav-parent">
+            <LeftNav 
+              productsList={productsList}
+              handleFilterChange={this.handleFilterChange.bind(this)}
+              onChange={this.onChange.bind(this)}
+
+            />
+          </section>
           <section className="nutrition-grid pane-content">
-          
-          <Menu items={names} openOnClick={true}/>
-            <div>
-              <label>Filter by Product Name</label>
-              <MultiSelect
-                data={product}
-                value={this.state.value}
-                onChange={this.handleChange}
-                textField="ProductName"
-              />
-            </div>
+            <section className="grid-header">
+              <h3>Awaiting Shipment :: All Orders</h3>
+              <Menu items={names} openOnClick={true}/>
+                <div>
+                  <MultiSelect
+                    data={product}
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    textField="ProductName"
+                    placeholder="Filter by Product Name"
+                  />
+                </div>
+              </section>
             <TabularData 
               productsList={productsList} 
               pageChange={this.pageChange.bind(this)} 

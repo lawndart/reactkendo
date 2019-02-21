@@ -9,16 +9,18 @@ class LeftNav extends Component {
 	render() {
 		const prodList = this.props.productsList;
 		return (	
-			<div className="pane-content">
+			<div className="pane-content left-nav">
 				<ComboBox
 					data={prodList.data}
 					filterable={true}
 					onFilterChange={this.props.handleFilterChange}
 					onChange={this.props.onChange}
 					textField="ProductName"
+					className="left-nav-search"
+					placeholder="Search Shipstuff"
 				/>
 				<PanelBar>
-					<PanelBarItem title={"Awaiting Payment"}>
+					<PanelBarItem title={"Awaiting Payment"} className="parent-item">
 						<PanelBarItem title={"Stores"}>
 							<PanelBarItem title={"Manual Orders"}></PanelBarItem>
 							<PanelBarItem title={"Presale Orders"}></PanelBarItem>
@@ -27,7 +29,7 @@ class LeftNav extends Component {
 							<PanelBarItem title={"Save Current View"} disabled={true}></PanelBarItem>
 						</PanelBarItem>
 					</PanelBarItem>
-					<PanelBarItem title={"On Hold"}>
+					<PanelBarItem title={"On Hold"} className="parent-item">
 						<PanelBarItem title={"Stores"}>
 							<PanelBarItem title={"Manual Orders"}></PanelBarItem>
 							<PanelBarItem title={"Presale Orders"}></PanelBarItem>
@@ -36,7 +38,7 @@ class LeftNav extends Component {
 							<PanelBarItem title={"Save Current View"} disabled={true}></PanelBarItem>
 						</PanelBarItem>
 					</PanelBarItem>
-					<PanelBarItem title={"Pending Fulfillment"}>
+					<PanelBarItem title={"Pending Fulfillment"} className="parent-item">
 						<PanelBarItem title={"Stores"}>
 							<PanelBarItem title={"Manual Orders"}></PanelBarItem>
 							<PanelBarItem title={"Presale Orders"}></PanelBarItem>
@@ -45,7 +47,7 @@ class LeftNav extends Component {
 							<PanelBarItem title={"Save Current View"} disabled={true}></PanelBarItem>
 						</PanelBarItem>
 					</PanelBarItem>
-					<PanelBarItem title={"Shipped"}>
+					<PanelBarItem title={"Shipped"} className="parent-item">
 						<PanelBarItem title={"Stores"}>
 							<PanelBarItem title={"Manual Orders"}></PanelBarItem>
 							<PanelBarItem title={"Presale Orders"}></PanelBarItem>
@@ -54,7 +56,7 @@ class LeftNav extends Component {
 							<PanelBarItem title={"Save Current View"} disabled={true}></PanelBarItem>
 						</PanelBarItem>
 					</PanelBarItem>
-					<PanelBarItem title={"Cancelled"}>
+					<PanelBarItem title={"Cancelled"} className="parent-item">
 						<PanelBarItem title={"Stores"}>
 							<PanelBarItem title={"Manual Orders"}></PanelBarItem>
 							<PanelBarItem title={"Presale Orders"}></PanelBarItem>
